@@ -59,3 +59,4 @@ coverage.*
 appsettings.[Ll]ocal.json
 /publish
 build.cmd
+NuGet.config

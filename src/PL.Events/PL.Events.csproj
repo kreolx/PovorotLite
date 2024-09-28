@@ -4,6 +4,13 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>1.0.3</PackageVersion>
+        <PackageId>PL.Events</PackageId>
+        <Version>1.0.3</Version>
+        <Authors>kreolx</Authors>
+        <PackageDescription>Events for povorot</PackageDescription>
+        <RepositoryUrl>https://github.com/kreolx/PovorotLite</RepositoryUrl>
     </PropertyGroup>
 
 </Project>
