@@ -12,6 +12,7 @@ public static class ServiceCollectionExtension
     {
         services.AddDbContextPool<ApplicationDbContext>(optionsBuilderAction);
         services.AddTransient<IRequestCommandManager, RequestCommandManager>();
+        services.AddTransient<IRequestQueryManager, RequestQueryManager>();
         return services;
     }
 }

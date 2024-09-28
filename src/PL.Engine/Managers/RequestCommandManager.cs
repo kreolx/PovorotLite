@@ -10,6 +10,7 @@ internal sealed class RequestCommandManager(ApplicationDbContext dbContext) : IR
 {
     public async Task AddRequestAsync(AddRequestDto addRequest, CancellationToken cancellationToken)
     {
+        ValidateRequest(addRequest);
         var request = new Request
         {
             Id = Guid.NewGuid(),
@@ -33,6 +34,7 @@ internal sealed class RequestCommandManager(ApplicationDbContext dbContext) : IR
 
     public async Task UpdateRequestAsync(UpdateAddRequestDto addRequestDto, CancellationToken cancellationToken)
     {
+        ValidateRequest(addRequestDto);
         var request = await dbContext.Requests.FirstOrDefaultAsync(d => d.Id == addRequestDto.Id, cancellationToken)
             ?? throw new KeyNotFoundException($"Request with id {addRequestDto.Id} not found");
         request.Description = addRequestDto.Description;
@@ -41,5 +43,21 @@ internal sealed class RequestCommandManager(ApplicationDbContext dbContext) : IR
         request.RequestedAt = addRequestDto.RequestedAt;
         request.UpdatedAt = DateTimeOffset.UtcNow;
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    private void ValidateRequest(BaseRequestDto addRequest)
+    {
+        if (addRequest.RequestedAt.Minute > 0)
+        {
+            throw new ArgumentException("RequestedAt must be at 00:00", nameof(addRequest.RequestedAt));
+        }
+        if (addRequest.RequestedAt.Hour is < 9 or > 18)
+        {
+            throw new ArgumentException("RequestedAt must be between 9:00 and 18:00", nameof(addRequest.RequestedAt));
+        }
+        if (DateTimeOffset.UtcNow.AddDays(13) < addRequest.RequestedAt)
+        {
+            throw new ArgumentException("RequestedAt must be less than 13 days from now", nameof(addRequest.RequestedAt));
+        }
     }
 }
