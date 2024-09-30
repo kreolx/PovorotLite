@@ -47,15 +47,16 @@ internal sealed class RequestCommandManager(ApplicationDbContext dbContext) : IR
 
     private void ValidateRequest(BaseRequestDto addRequest)
     {
-        if (addRequest.RequestedAt.Minute > 0)
+        var validateTime = addRequest.RequestedAt.AddHours(10);
+        if (validateTime.Minute > 0)
         {
             throw new ArgumentException("RequestedAt must be at 00:00", nameof(addRequest.RequestedAt));
         }
-        if (addRequest.RequestedAt.Hour is < 9 or > 18)
+        if (validateTime.Hour is < 9 or > 18)
         {
             throw new ArgumentException("RequestedAt must be between 9:00 and 18:00", nameof(addRequest.RequestedAt));
         }
-        if (DateTimeOffset.UtcNow.AddDays(13) < addRequest.RequestedAt)
+        if (DateTimeOffset.UtcNow.AddDays(13) < validateTime)
         {
             throw new ArgumentException("RequestedAt must be less than 13 days from now", nameof(addRequest.RequestedAt));
         }

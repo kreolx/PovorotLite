@@ -26,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PL.Api\PL.Api.csproj" />
       <ProjectReference Include="..\PL.BW\PL.BW.csproj" />
       <ProjectReference Include="..\PL.Engine\PL.Engine.csproj" />
     </ItemGroup>

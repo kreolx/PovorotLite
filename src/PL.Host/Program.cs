@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PL.Api;
 using PL.BW;
 using PL.Engine;
 using Serilog;
@@ -11,8 +12,10 @@ builder.Host.UseSerilog((ctx, lc) =>
 });
 builder.Services.ConfigureMasstransit(builder.Configuration);
 builder.Services.AddEngine(ConfigureDbContext);
+builder.Services.AddPLControllers();
 var app = builder.Build();
 app.UseSerilogRequestLogging();
+app.UsePLGqlControllers();
 app.Run();
 return;
 
